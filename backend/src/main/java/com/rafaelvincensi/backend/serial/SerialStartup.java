@@ -15,6 +15,6 @@ public class SerialStartup implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        serialService.listarPortas();
+        serialService.conectar();
     }
 }

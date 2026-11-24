@@ -1,6 +1,6 @@
-package com.rafaelvincensi.backend.spotify.auth;
+package com.rafaelvincensi.backend.auth;
 
-import com.rafaelvincensi.backend.spotify.auth.dto.SpotifyTokenResponseDTO;
+import com.rafaelvincensi.backend.auth.dto.SpotifyTokenResponseDTO;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
@@ -99,6 +99,14 @@ public class SpotifyAuthService {
                 .headers(headers -> headers.setBearerAuth(tokenResponse.accessToken()))
                 .retrieve()
                 .body(String.class);
+    }
+
+    public String obterAccessToken() {
+        if (tokenResponse == null || tokenResponse.accessToken() == null) {
+            throw new IllegalStateException("Spotify não autenticado.");
+        }
+
+        return tokenResponse.accessToken();
     }
 
 }

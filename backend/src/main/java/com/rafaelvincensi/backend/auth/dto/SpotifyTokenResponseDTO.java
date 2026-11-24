@@ -1,5 +1,5 @@
 
-package com.rafaelvincensi.backend.spotify.auth.dto;
+package com.rafaelvincensi.backend.auth.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

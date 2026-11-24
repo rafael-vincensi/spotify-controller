@@ -4,7 +4,10 @@ package com.rafaelvincensi.backend.spotify;
 import com.rafaelvincensi.backend.auth.SpotifyAuthService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.util.UriComponentsBuilder;
 import tools.jackson.databind.JsonNode;
+
+import java.net.URI;
 
 @Service
 public class SpotifyService {
@@ -63,4 +66,69 @@ public class SpotifyService {
                 .retrieve()
                 .toBodilessEntity();
     }
+
+
+    public void alternarCurtidaMusicaAtual() {
+        String accessToken = spotifyAuthService.obterAccessToken();
+
+        JsonNode estado = restClient.get()
+                .uri("https://api.spotify.com/v1/me/player")
+                .headers(headers -> headers.setBearerAuth(accessToken))
+                .retrieve()
+                .body(JsonNode.class);
+
+        if (estado == null || estado.path("item").isMissingNode()
+                || estado.path("item").isNull()) {
+            throw new IllegalStateException("Nenhuma musica encontrada na reproducao atual!");
+        }
+
+        JsonNode musica = estado.path("item");
+
+        if (!"track".equals(musica.path("type").asText())) {
+            throw new IllegalStateException("O conteudo atual nao eh uma musica!");
+        }
+
+        String trackUri = musica.path("uri").asText();
+
+        URI uriConsulta = UriComponentsBuilder
+                .fromUriString("https://api.spotify.com/v1/me/library/contains")
+                .queryParam("uris", trackUri)
+                .build()
+                .encode()
+                .toUri();
+
+        Boolean[] resultado = restClient.get()
+                .uri(uriConsulta)
+                .headers(headers -> headers.setBearerAuth(accessToken))
+                .retrieve()
+                .body(Boolean[].class);
+
+        boolean jaCurtida = resultado != null && resultado.length > 0  && Boolean.TRUE.equals(resultado[0]);
+
+        URI uriBiblioteca = UriComponentsBuilder
+                .fromUriString("https://api.spotify.com/v1/me/library")
+                .queryParam("uris", trackUri)
+                .build()
+                .encode()
+                .toUri();
+
+        if (jaCurtida) {
+            restClient.delete()
+                    .uri(uriBiblioteca)
+                    .headers(headers -> headers.setBearerAuth(accessToken))
+                    .retrieve()
+                    .toBodilessEntity();
+
+            System.out.println("Musica removida das curtidas!");
+        } else {
+            restClient.put()
+                    .uri(uriBiblioteca)
+                    .headers(headers -> headers.setBearerAuth(accessToken))
+                    .retrieve()
+                    .toBodilessEntity();
+
+            System.out.println("Musica adicionada as curtidas!");
+        }
+    }
+
 }

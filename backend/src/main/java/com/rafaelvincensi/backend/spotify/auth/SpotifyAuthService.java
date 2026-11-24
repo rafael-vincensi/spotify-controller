@@ -41,5 +41,27 @@ public class SpotifyAuthService {
                 .encode()
                 .toUriString();
     }
+
+
+    public String processarCallback(String code, String state, String error, HttpSession session) {
+        if (error != null) {
+            throw new IllegalArgumentException("autorizacaos negada pelo spotify: " + error);
+        }
+
+        String stateEsperado = (String) session.getAttribute("spotify_oauth_state");
+
+        if (stateEsperado == null || !stateEsperado.equals(state)) {
+            throw new IllegalArgumentException("parametro state invalido");
+        }
+
+        if (code == null || code.isBlank()) {
+            throw new IllegalArgumentException("authorization code nao recebido");
+        }
+
+        session.removeAttribute("spotify_oauth_state");
+
+        return "authorization code recebido com sucesso!!";
+    }
+
 }
 

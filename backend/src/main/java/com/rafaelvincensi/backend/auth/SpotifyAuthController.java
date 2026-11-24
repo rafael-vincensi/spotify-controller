@@ -67,4 +67,11 @@ public class SpotifyAuthController {
         spotifyService.musicaAnterior();
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/spotify/playback/like")
+    public ResponseEntity<Void> alternarCurtida() {
+
+        spotifyService.alternarCurtidaMusicaAtual();
+        return ResponseEntity.noContent().build();
+    }
 }

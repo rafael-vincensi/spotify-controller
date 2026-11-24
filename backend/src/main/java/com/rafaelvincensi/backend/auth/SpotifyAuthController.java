@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -47,5 +48,11 @@ public class SpotifyAuthController {
         }
 
         return ResponseEntity.ok(resposta);
+    }
+
+    @PostMapping("/spotify/playback/toggle")
+    public ResponseEntity<Void> alternarReproducao() {
+        spotifyService.alternarReproducao();
+        return ResponseEntity.noContent().build();
     }
 }

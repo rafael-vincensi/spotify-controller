@@ -55,4 +55,11 @@ public class SpotifyAuthController {
         spotifyService.alternarReproducao();
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/spotify/playback/next")
+    public ResponseEntity<Void> proximaMusica() {
+        spotifyService.proximaMusica();
+        return ResponseEntity.noContent().build();
+    }
+
 }

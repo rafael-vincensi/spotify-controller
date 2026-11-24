@@ -103,7 +103,7 @@ public class SpotifyAuthService {
 
     public String obterAccessToken() {
         if (tokenResponse == null || tokenResponse.accessToken() == null) {
-            throw new IllegalStateException("Spotify não autenticado.");
+            throw new IllegalStateException("spotify nao auth");
         }
 
         return tokenResponse.accessToken();

@@ -1,6 +1,7 @@
 
 package com.rafaelvincensi.backend.auth;
 
+import com.rafaelvincensi.backend.spotify.SpotifyService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -11,9 +12,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class SpotifyAuthController {
 
     private final SpotifyAuthService spotifyAuthService;
+    private final SpotifyService spotifyService;
 
-    public SpotifyAuthController(SpotifyAuthService spotifyAuthService) {
+    public SpotifyAuthController(SpotifyAuthService spotifyAuthService, SpotifyService spotifyService) {
         this.spotifyAuthService = spotifyAuthService;
+        this.spotifyService = spotifyService;
     }
 
     @GetMapping("/spotify/login")

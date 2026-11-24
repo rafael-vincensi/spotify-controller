@@ -47,7 +47,7 @@ public class SpotifyService {
     public void proximaMusica() {
         String accessToken = spotifyAuthService.obterAccessToken();
 
-        restClient.put()
+        restClient.post()
                 .uri("https://api.spotify.com/v1/me/player/next")
                 .headers(headers -> headers.setBearerAuth(accessToken))
                 .retrieve()
@@ -57,7 +57,7 @@ public class SpotifyService {
     public void musicaAnterior() {
         String accessToken = spotifyAuthService.obterAccessToken();
 
-        restClient.put()
+        restClient.post()
                 .uri("https://api.spotify.com/v1/me/player/previous")
                 .headers(headers -> headers.setBearerAuth(accessToken))
                 .retrieve()

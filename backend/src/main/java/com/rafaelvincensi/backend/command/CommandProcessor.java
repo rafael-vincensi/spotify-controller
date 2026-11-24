@@ -1,10 +1,17 @@
 
 package com.rafaelvincensi.backend.command;
 
+import com.rafaelvincensi.backend.spotify.SpotifyService;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CommandProcessor {
+
+    private final SpotifyService spotifyService;
+
+    public CommandProcessor(SpotifyService spotifyService) {
+        this.spotifyService = spotifyService;
+    }
 
     public void processar(String comando) {
 
@@ -12,34 +19,40 @@ public class CommandProcessor {
             return;
         }
 
-        switch (comando.trim()) {
+        try {
+            switch (comando.trim()) {
 
-            case "COMANDO: PLAY" ->
-                    System.out.println("Acao identificada: PLAY");
+                case "COMANDO: PLAY" -> {
+                    spotifyService.alternarReproducao();
+                    System.out.println("Spotify: estado de reproducao alternado");
+                }
+                case "COMANDO: PAUSE" -> {
+                    spotifyService.alternarReproducao();
+                    System.out.println("Spotify: estado de reproducao alternado");
+                }
 
-            case "COMANDO: PAUSE" ->
-                    System.out.println("Acao identificada: PAUSE");
+                case "COMANDO: NEXT" -> {
+                    spotifyService.proximaMusica();
+                    System.out.println("Spotify: proxima musica");
+                }
 
-            case "COMANDO: NEXT" ->
-                    System.out.println("Acao identificada: NEXT");
+                case "COMANDO: PREVIOUS" -> {
+                    spotifyService.musicaAnterior();
+                    System.out.println("Spotify: musica anterior");
+                }
 
-            case "COMANDO: PREVIOUS" ->
-                    System.out.println("Acao identificada: PREVIOUS");
+                case "COMANDO: LIKE" -> {
+                    spotifyService.alternarCurtidaMusicaAtual();
+                }
 
-            case "COMANDO: LIKE" ->
-                    System.out.println("Acao identificada: LIKE");
+                default ->
+                        System.out.println("Comando desconhecido: " + comando);
+            }
 
-            case "COMANDO: UNLIKE" ->
-                    System.out.println("Acao identificada: UNLIKE");
-
-            case "COMANDO: SHUFFLE_ON" ->
-                    System.out.println("Acao identificada: SHUFFLE_ON");
-
-            case "COMANDO: SHUFFLE_OFF" ->
-                    System.out.println("Acao identificada: SHUFFLE_OFF");
-
-            default ->
-                    System.out.println("Comando desconhecido: " + comando);
+        } catch (Exception e) {
+            System.err.println(
+                    "Erro ao executar comando " + comando + ": " + e.getMessage()
+            );
         }
     }
 }

@@ -35,7 +35,8 @@ public class SpotifyAuthService {
         String scopes = String.join(" ",
                 "user-modify-playback-state",
                 "user-read-playback-state",
-                "user-library-modify"
+                "user-library-modify",
+                "user-library-read"
         );
 
         return UriComponentsBuilder

@@ -89,5 +89,17 @@ public class SpotifyAuthService {
         return "autenticação spotify realizada com sucesso!!";
     }
 
+    public String consultarEstadoReproducao() {
+        if (tokenResponse == null || tokenResponse.accessToken() == null) {
+            throw new IllegalStateException("Sdpotify nao autenticado");
+        }
+
+        return restClient.get()
+                .uri("https://api.spotify.com/v1/me/player")
+                .headers(headers -> headers.setBearerAuth(tokenResponse.accessToken()))
+                .retrieve()
+                .body(String.class);
+    }
+
 }
 

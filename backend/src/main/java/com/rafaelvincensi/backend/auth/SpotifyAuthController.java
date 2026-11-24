@@ -62,4 +62,9 @@ public class SpotifyAuthController {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping("/spotify/playback/previous")
+    public ResponseEntity<Void> musicaAnterior() {
+        spotifyService.musicaAnterior();
+        return ResponseEntity.noContent().build();
+    }
 }

@@ -131,4 +131,91 @@ public class SpotifyService {
         }
     }
 
+
+    public void iniciarReproducao() {
+        String accessToken = spotifyAuthService.obterAccessToken();
+
+        restClient.put()
+                .uri("https://api.spotify.com/v1/me/player/play")
+                .headers(headers -> headers.setBearerAuth(accessToken))
+                .retrieve()
+                .toBodilessEntity();
+    }
+
+    public void pausarReproducao() {
+        String accessToken = spotifyAuthService.obterAccessToken();
+
+        restClient.put()
+                .uri("https://api.spotify.com/v1/me/player/pause")
+                .headers(headers -> headers.setBearerAuth(accessToken))
+                .retrieve()
+                .toBodilessEntity();
+    }
+
+    public void curtirMusicaAtual() {
+        String accessToken = spotifyAuthService.obterAccessToken();
+        String trackUri = obterUriMusicaAtual(accessToken);
+
+        URI uriBiblioteca = UriComponentsBuilder
+                .fromUriString("https://api.spotify.com/v1/me/library")
+                .queryParam("uris", trackUri)
+                .build()
+                .encode()
+                .toUri();
+
+        restClient.put()
+                .uri(uriBiblioteca)
+                .headers(headers -> headers.setBearerAuth(accessToken))
+                .retrieve()
+                .toBodilessEntity();
+
+        System.out.println("Musica adicionada as curtidas!");
+    }
+
+    public void descurtirMusicaAtual() {
+        String accessToken = spotifyAuthService.obterAccessToken();
+        String trackUri = obterUriMusicaAtual(accessToken);
+
+        URI uriBiblioteca = UriComponentsBuilder
+                .fromUriString("https://api.spotify.com/v1/me/library")
+                .queryParam("uris", trackUri)
+                .build()
+                .encode()
+                .toUri();
+
+        restClient.delete()
+                .uri(uriBiblioteca)
+                .headers(headers -> headers.setBearerAuth(accessToken))
+                .retrieve()
+                .toBodilessEntity();
+
+        System.out.println("Musica removida das curtidas!");
+    }
+
+    private String obterUriMusicaAtual(String accessToken) {
+        JsonNode estado = restClient.get()
+                .uri("https://api.spotify.com/v1/me/player")
+                .headers(headers -> headers.setBearerAuth(accessToken))
+                .retrieve()
+                .body(JsonNode.class);
+
+        if (estado == null || estado.path("item").isMissingNode()
+                || estado.path("item").isNull()) {
+            throw new IllegalStateException(
+                    "Nenhuma musica encontrada na reproducao atual!"
+            );
+        }
+
+        JsonNode musica = estado.path("item");
+
+        if (!"track".equals(musica.path("type").asText())) {
+            throw new IllegalStateException(
+                    "O conteudo atual nao eh uma musica!"
+            );
+        }
+
+        return musica.path("uri").asText();
+    }
+
+
 }

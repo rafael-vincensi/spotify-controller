@@ -2,6 +2,7 @@
 package com.rafaelvincensi.backend.spotify.auth;
 
 import jakarta.servlet.http.HttpSession;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,5 +34,16 @@ public class SpotifyAuthController {
         String result = spotifyAuthService.processarCallback(code, state, error, session);
 
         return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("spotify/status")
+    public ResponseEntity<String> consultarEstadoReproducao(){
+        String resposta = spotifyAuthService.consultarEstadoReproducao();
+
+        if (resposta == null) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(resposta);
     }
 }

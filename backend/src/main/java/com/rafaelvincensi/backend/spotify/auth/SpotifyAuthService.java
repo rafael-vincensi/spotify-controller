@@ -1,8 +1,13 @@
 package com.rafaelvincensi.backend.spotify.auth;
 
+import com.rafaelvincensi.backend.spotify.auth.dto.SpotifyTokenResponseDTO;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestClient;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.UUID;
@@ -13,11 +18,14 @@ public class SpotifyAuthService {
     @Value("${spotify.client.id}")
     private String clientId;
 
-    @Value("${SPOTIFY_CLIENT_SECRET}")
+    @Value("${spotify.client.secret}")
     private String secret;
 
-    @Value("${SPOTIFY_URL_REDIRECT}")
+    @Value("${spotify.redirect.url}")
     private String redirectUrl;
+
+    private final RestClient restClient = RestClient.create();
+    private SpotifyTokenResponseDTO tokenResponse;
 
     public String gerarUrlAuthorization(HttpSession session){
         String state = UUID.randomUUID().toString();
@@ -42,6 +50,22 @@ public class SpotifyAuthService {
                 .toUriString();
     }
 
+    private SpotifyTokenResponseDTO trocarCodigoPorToken(String code) {
+
+        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+
+        formData.add("grant_type", "authorization_code");
+        formData.add("code", code);
+        formData.add("redirect_uri", redirectUrl);
+
+        return restClient.post()
+                .uri("https://accounts.spotify.com/api/token")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .headers(headers -> headers.setBasicAuth(clientId, secret))
+                .body(formData)
+                .retrieve()
+                .body(SpotifyTokenResponseDTO.class);
+    }
 
     public String processarCallback(String code, String state, String error, HttpSession session) {
         if (error != null) {
@@ -58,9 +82,11 @@ public class SpotifyAuthService {
             throw new IllegalArgumentException("authorization code nao recebido");
         }
 
+        SpotifyTokenResponseDTO response = trocarCodigoPorToken(code);
+        this.tokenResponse = response;
         session.removeAttribute("spotify_oauth_state");
 
-        return "authorization code recebido com sucesso!!";
+        return "autenticação spotify realizada com sucesso!!";
     }
 
 }

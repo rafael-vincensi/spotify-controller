@@ -43,4 +43,14 @@ public class SpotifyService {
                 .retrieve()
                 .toBodilessEntity();
     }
+
+    public void proximaMusica() {
+        String accessToken = spotifyAuthService.obterAccessToken();
+
+        restClient.put()
+                .uri("https://api.spotify.com/v1/me/player/next")
+                .headers(headers -> headers.setBearerAuth(accessToken))
+                .retrieve()
+                .toBodilessEntity();
+    }
 }

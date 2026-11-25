@@ -51,7 +51,7 @@ O Arduino funciona como a interface física de controle, enquanto o backend é r
 | LED RGB | 1 | Indicador visual do estado de reprodução. |
 | Sensor LDR | 1 | Responsável pela detecção da luminosidade ambiente. |
 | Resistor de 10 kΩ | 1 | Utilizado no circuito divisor de tensão do LDR. |
-| Resistores limitadores de corrente | Conforme necessário | Proteção dos canais do LED RGB. |
+| Resistores limitadores de corrente | 6 | Proteção dos canais do LED RGB. |
 | Protoboard e jumpers | — | Montagem e conexão dos componentes. |
 | Cabo USB | 1 | Alimentação e comunicação serial com o computador. |
 
@@ -326,16 +326,6 @@ spotify-controller/
 | Spring WebMVC | Dependência do projeto | Disponibilização dos endpoints HTTP e integração REST. |
 
 O código do Arduino utiliza as funções padrão do ambiente Arduino e não necessita de bibliotecas externas adicionais na implementação atual.
-
-## Aplicação prática
-
-O Spotify Controller demonstra uma aplicação prática de sistemas embarcados por meio da integração entre componentes eletrônicos e um serviço digital externo.
-
-O projeto oferece uma interface física alternativa para controlar a reprodução de músicas, combinando interação por hardware, leitura de luminosidade, indicação visual, comunicação serial e integração com APIs REST.
-
-O sensor LDR realiza a leitura da luminosidade ambiente, enquanto o LED RGB atua como atuador, ajustando sua intensidade luminosa conforme os dados coletados. Além disso, o LED fornece uma indicação visual do estado da reprodução.
-
-Dessa forma, o projeto demonstra como um microcontrolador pode coletar dados do ambiente, controlar componentes eletrônicos e se comunicar com uma aplicação backend para ampliar suas funcionalidades.
 
 ---
 

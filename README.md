@@ -5,16 +5,12 @@
 ## Tecnologias utilizadas
 
 <div align="center">
-
-[![Arduino](https://img.shields.io/badge/Arduino-Uno_R3-00979D?style=for-the-badge&logo=arduino&logoColor=white)](https://www.arduino.cc/)
-[![C++](https://img.shields.io/badge/C%2B%2B-Arduino-00599C?style=for-the-badge&logo=cplusplus&logoColor=white)](https://isocpp.org/)
-[![Java](https://img.shields.io/badge/Java-21-orange?style=for-the-badge&logo=openjdk&logoColor=white)](https://www.oracle.com/java/)
-[![Spring Boot](https://img.shields.io/badge/Spring_Boot-4.x-brightgreen?style=for-the-badge&logo=spring&logoColor=white)](https://spring.io/projects/spring-boot)
-[![Spotify](https://img.shields.io/badge/Spotify-Web_API-1DB954?style=for-the-badge&logo=spotify&logoColor=white)](https://developer.spotify.com/documentation/web-api)
-[![jSerialComm](https://img.shields.io/badge/jSerialComm-2.11.4-blue?style=for-the-badge)](https://fazecast.github.io/jSerialComm/)
-[![Maven](https://img.shields.io/badge/Maven-Build-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white)](https://maven.apache.org/)
-[![OAuth 2.0](https://img.shields.io/badge/OAuth_2.0-Auth-000000?style=for-the-badge)](https://oauth.net/2/)
-
+  <a href="https://www.arduino.cc/"><img src="https://img.shields.io/badge/Arduino-Uno_R3-00979D?style=for-the-badge&logo=arduino&logoColor=white" alt="Arduino" /></a>
+  <a href="https://isocpp.org/"><img src="https://img.shields.io/badge/C%2B%2B-Arduino-00599C?style=for-the-badge&logo=cplusplus&logoColor=white" alt="C++" /></a>
+  <a href="https://www.oracle.com/java/"><img src="https://img.shields.io/badge/Java-21-orange?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java" /></a>
+  <a href="https://spring.io/projects/spring-boot"><img src="https://img.shields.io/badge/Spring_Boot-4.x-brightgreen?style=for-the-badge&logo=spring&logoColor=white" alt="Spring Boot" /></a>
+  <a href="https://fazecast.github.io/jSerialComm/"><img src="https://img.shields.io/badge/jSerialComm-2.11.4-blue?style=for-the-badge" alt="jSerialComm" /></a>
+  <a href="https://oauth.net/2/"><img src="https://img.shields.io/badge/OAuth_2.0-Auth-000000?style=for-the-badge" alt="OAuth 2.0" /></a>
 </div>
 
 ## Visão geral
@@ -330,7 +326,5 @@ O código do Arduino utiliza as funções padrão do ambiente Arduino e não nec
 ---
 
 <div align="center">
-
-Built by [rafael-vincensi](https://github.com/rafael-vincensi) e Marcos Felipe Schmid
-
+  Built by <a href="https://github.com/rafael-vincensi">rafael-vincensi</a> e Marcos Felipe Schmid
 </div>
